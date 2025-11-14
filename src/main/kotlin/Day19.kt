@@ -1,22 +1,14 @@
 fun main() {
-    val input = getInput("day19").readText().split(lineSeparator + lineSeparator)
-    val towels = input[0].split(", ").sortedByDescending { it.length }
-    val patterns = input[1].lines()
+    val input = getInputLines("day19")
 
-    val patternPossibilities = mutableMapOf("" to 1L)
-    patterns.forEach { computePossibilities(it, towels, patternPossibilities) }
-
-    println(patterns.count { patternPossibilities[it]!! > 0 })
-    println(patterns.sumOf { patternPossibilities[it]!! })
+    println(part1(input))
+    println(part2(input))
 }
 
-fun computePossibilities(pattern: String, towels: List<String>, patternPossibilities: MutableMap<String, Long>): Long {
-    if (patternPossibilities.containsKey(pattern))
-        return patternPossibilities[pattern]!!
+private fun part1(input: List<String>): Int {
+    return 0
+}
 
-    val possibilities = towels
-        .filter { pattern.startsWith(it) }
-        .sumOf { computePossibilities(pattern.substring(it.length), towels, patternPossibilities) }
-    patternPossibilities[pattern] = possibilities
-    return possibilities
+private fun part2(input: List<String>): Int {
+    return 0
 }

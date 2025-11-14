@@ -1,33 +1,14 @@
-import kotlin.math.sign
-
 fun main() {
-    val reports = getInput("day2").readText()
-        .lines()
-        .map { note -> note.split(" ").map { it.toInt() } }
+    val input = getInputLines("day2")
 
-    println(reports.count { safe(it) })
-    println(reports.count { safe(it, true) })
+    println(part1(input))
+    println(part2(input))
 }
 
-fun safe(report: List<Int>, problemDampener: Boolean = false): Boolean {
-    val diffs = report.zipWithNext().map { it.second - it.first }
-    val nonGradualLevelIndex = diffs.indexOfFirst { it == 0 || it > 3 || it < -3 }
-
-    val firstDecrease = diffs.indexOfFirst { it.sign == -1 }
-    val firstIncrease = diffs.indexOfFirst { it.sign == 1 }
-
-    return (nonGradualLevelIndex == -1 && (firstDecrease == -1 || firstIncrease == -1)) || (problemDampener
-            && setOf(
-        nonGradualLevelIndex,
-        nonGradualLevelIndex + 1,
-        firstDecrease,
-        firstDecrease + 1,
-        firstIncrease,
-        firstIncrease + 1
-    )
-        .filter { it in report.indices }
-        .any { safe(report.withoutItemAt(it)) })
+private fun part1(input: List<String>): Int {
+    return 0
 }
 
-fun <T> Iterable<T>.withoutItemAt(index: Int): List<T> =
-    take(index) + drop(index + 1)
+private fun part2(input: List<String>): Int {
+    return 0
+}

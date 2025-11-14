@@ -1,9 +1,14 @@
 fun main() {
-    val input = getInput("day3").readText()
-    println(executeMultiplyInstructions(input))
-    val correctedInput = input.replace(Regex("don't\\(\\).*?(?:do\\(\\)|\$)", RegexOption.DOT_MATCHES_ALL), "")
-    println(executeMultiplyInstructions(correctedInput))
+    val input = getInputLines("day3")
+
+    println(part1(input))
+    println(part2(input))
 }
 
-private fun executeMultiplyInstructions(input: String) = "mul\\((\\d{1,3}),(\\d{1,3})\\)".toRegex().findAll(input)
-    .sumOf { it.groups[1]!!.value.toInt() * it.groups[2]!!.value.toInt() }
+private fun part1(input: List<String>): Int {
+    return 0
+}
+
+private fun part2(input: List<String>): Int {
+    return 0
+}

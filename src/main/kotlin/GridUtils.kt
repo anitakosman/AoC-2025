@@ -45,9 +45,18 @@ val Pos.x: Int
     get() = first
 val Pos.y: Int
     get() = second
+fun Pos.orthogonals() = Direction.orthogonals.map { it.move(this) }
+fun Pos.diagonals() = Direction.diagonals.map { it.move(this) }
+fun Pos.neighbours() = this.orthogonals() + this.diagonals()
 
 typealias Move = Pair<Int, Int>
 val Move.dx: Int
     get() = first
 val Move.dy: Int
     get() = second
+
+fun getGridPositions(grid: List<String>, char: Char): Set<Pos> {
+    return grid.flatMapIndexed { y, line ->
+        line.indices.filter { line[it] == char }.map { it to y }
+    }.toSet()
+}

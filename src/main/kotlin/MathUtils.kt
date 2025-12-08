@@ -1,4 +1,10 @@
 import java.math.BigInteger
+import kotlin.math.pow
+import kotlin.math.sqrt
+
+fun Long.pow(other: Long) = this.toDouble().pow(other.toDouble()).toLong()
+
+fun sqrt(x: Long) = sqrt(x.toDouble()).toLong()
 
 data class Rational(val nominator: BigInteger, val denominator: BigInteger = BigInteger.ONE) {
     fun simplify(): Rational {

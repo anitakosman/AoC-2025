@@ -1,4 +1,3 @@
-import java.math.BigInteger
 
 fun main() {
     val input = getInputText("day2").split(",")
@@ -7,20 +6,20 @@ fun main() {
     println(part2(input))
 }
 
-private fun part1(input: List<String>): BigInteger {
+private fun part1(input: List<String>): Long {
     return sumInvalid(input, ::doublePattern)
 }
 
-private fun part2(input: List<String>): BigInteger {
+private fun part2(input: List<String>): Long {
     return sumInvalid(input, ::anyPattern)
 }
 
-private fun sumInvalid(input: List<String>, function: (s: String) -> Boolean): BigInteger {
+private fun sumInvalid(input: List<String>, function: (s: String) -> Boolean): Long {
     return input.sumOf { s ->
         val split = s.split("-")
-        val (a, b) = (split[0].toBigInteger() to split[1].toBigInteger())
+        val (a, b) = (split[0].toLong() to split[1].toLong())
         (a..b).sumOf { n ->
-            if (function(n.toString())) n else BigInteger.ZERO
+            if (function(n.toString())) n else 0L
         }
     }
 }

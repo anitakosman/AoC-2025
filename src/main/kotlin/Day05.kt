@@ -1,31 +1,30 @@
-import java.math.BigInteger
 import kotlin.let
 
 fun main() {
     val input = getInputBlocks("day5")
-    val ranges = input[0].lines().map { line -> line.split("-").let { it[0].toBigInteger()..it[1].toBigInteger() }}
-    val ingredients = input[1].lines().map { it.toBigInteger() }
+    val ranges = input[0].lines().map { line -> line.split("-").let { it[0].toLong()..it[1].toLong() }}
+    val ingredients = input[1].lines().map { it.toLong() }
 
     println(part1(ranges, ingredients))
     println(part2(ranges))
 }
 
-private fun part1(ranges: List<BigIntegerRange>, ingredients: List<BigInteger>): Int {
+private fun part1(ranges: List<LongRange>, ingredients: List<Long>): Int {
     return ingredients.count { ingredient -> ranges.any { it.contains(ingredient) } }
 }
 
-private fun part2(ranges: List<BigIntegerRange>): BigInteger {
-    val sortedRanges = ranges.sortedBy { it.start }
-    var freshIngredients = BigInteger.ZERO
+private fun part2(ranges: List<LongRange>): Long {
+    val sortedRanges = ranges.sortedBy { it.first }
+    var freshIngredients = 0L
     var currentRange = sortedRanges[0]
     sortedRanges.drop(1).forEach { range ->
-        if (range.start > currentRange.endInclusive) {
-            freshIngredients += currentRange.endInclusive - currentRange.start + BigInteger.ONE
+        if (range.first > currentRange.last) {
+            freshIngredients += currentRange.last - currentRange.first + 1L
             currentRange = range
         } else {
-            currentRange = currentRange.start..(maxOf(currentRange.endInclusive, range.endInclusive))
+            currentRange = currentRange.first..(maxOf(currentRange.last, range.last))
         }
     }
-    freshIngredients += currentRange.endInclusive - currentRange.start + BigInteger.ONE
+    freshIngredients += currentRange.last - currentRange.first + 1L
     return freshIngredients
 }

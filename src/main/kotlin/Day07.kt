@@ -1,5 +1,3 @@
-import java.math.BigInteger
-
 fun main() {
     val input = getInputLines("day7")
 
@@ -18,8 +16,8 @@ private fun part1(input: List<String>): Int {
     return splits
 }
 
-private fun part2(input: List<String>): BigInteger {
-    var beams = mapOf(input[0].indexOf('S') to BigInteger.ONE)
+private fun part2(input: List<String>): Long {
+    var beams = mapOf(input[0].indexOf('S') to 1L)
     input.drop(1).forEach { line ->
         val splitters = line.withIndex().filter { it.value == '^' }.map { it.index }
         beams = beams.map { (beam, count) ->
@@ -30,5 +28,5 @@ private fun part2(input: List<String>): BigInteger {
         }.flatten().groupBy { it.first }.map { (beam, counts) -> beam to counts.sumOf { it.second } }.toMap()
 
     }
-    return beams.values.sumOf { it }
+    return beams.values.sum()
 }

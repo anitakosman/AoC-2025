@@ -14,41 +14,34 @@ fun main() {
 }
 
 private fun part1(connections: List<Pair<ThreeDimensionalPoint, ThreeDimensionalPoint>>): Int {
-    val circuits = mutableSetOf<MutableSet<ThreeDimensionalPoint>>()
+    var circuits = emptyList<Set<ThreeDimensionalPoint>>()
     connections.take(1000).forEach {
-        addConnection(circuits, it)
+        circuits = addConnection(circuits, it)
     }
     return circuits.map { it.size }.sorted().reversed().take(3).reduce(Int::times)
 }
 
 private fun part2(connections: List<Pair<ThreeDimensionalPoint, ThreeDimensionalPoint>>): Long {
-    val circuits = mutableSetOf<MutableSet<ThreeDimensionalPoint>>()
+    var circuits = emptyList<Set<ThreeDimensionalPoint>>()
     var currentConnection = connections[0]
     var remainingConnections = connections
     while (circuits.firstOrNull()?.size != 1000){
         currentConnection = remainingConnections[0]
         remainingConnections = remainingConnections.drop(1)
-        addConnection(circuits, currentConnection)
+        circuits = addConnection(circuits, currentConnection)
     }
     return currentConnection.first.x.toLong() * currentConnection.second.x.toLong()
 }
 
-private fun addConnection(circuits: MutableSet<MutableSet<ThreeDimensionalPoint>>, connection: Pair<ThreeDimensionalPoint, ThreeDimensionalPoint>) {
-    val (a, b) = connection
-    val containingA = circuits.find { it.contains(a) }
-    val containingB = circuits.find { it.contains(b) }
-    if (containingA == null && containingB == null) {
-        circuits.add(mutableSetOf(a, b))
-    } else if (containingA == null) {
-        containingB!!.add(a)
-    } else if (containingB == null) {
-        containingA.add(b)
-    } else if (containingA != containingB) {
-        containingA.addAll(containingB)
-        containingB.retainAll(emptyList())
-    }
-    circuits.removeIf { it.isEmpty() }
-}
+private fun addConnection(circuits: List<Set<ThreeDimensionalPoint>>, connection: Pair<ThreeDimensionalPoint, ThreeDimensionalPoint>) =
+    circuits
+        .filter { !it.contains(connection.first) && !it.contains(connection.second) }
+        .plusElement(
+            circuits
+                .filter { it.contains(connection.first) || it.contains(connection.second) }
+                .flatten()
+                .plus(setOf(connection.first, connection.second)).toSet()
+        )
 
 data class ThreeDimensionalPoint(val x: Int, val y: Int, val z: Int) {
     fun distance(other: ThreeDimensionalPoint): Long {
